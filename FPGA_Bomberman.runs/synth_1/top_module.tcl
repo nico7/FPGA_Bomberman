@@ -71,6 +71,7 @@ set_param synth.vivado.isSynthRun true
 set_msg_config -source 4 -id {IP_Flow 19-2162} -severity warning -new_severity info
 set_property webtalk.parent_dir C:/Users/Nico/Documents/Projects/Firmware/FPGA_Bomberman/FPGA_Bomberman.cache/wt [current_project]
 set_property parent.project_path C:/Users/Nico/Documents/Projects/Firmware/FPGA_Bomberman/FPGA_Bomberman.xpr [current_project]
+set_property XPM_LIBRARIES XPM_MEMORY [current_project]
 set_property default_lib xil_defaultlib [current_project]
 set_property target_language Verilog [current_project]
 set_property ip_output_repo c:/Users/Nico/Documents/Projects/Firmware/FPGA_Bomberman/FPGA_Bomberman.cache/ip [current_project]
@@ -78,7 +79,9 @@ set_property ip_cache_permissions {read write} [current_project]
 OPTRACE "Creating in-memory project" END { }
 OPTRACE "Adding files" START { }
 add_files c:/Users/Nico/Documents/Projects/Firmware/FPGA_Bomberman/bomberman_student_2024/graphics/pillar.coe
+add_files c:/Users/Nico/Documents/Projects/Firmware/FPGA_Bomberman/bomberman_student_2024/graphics/player.coe
 read_verilog -library xil_defaultlib {
+  C:/Users/Nico/Documents/Projects/Firmware/FPGA_Bomberman/bomberman_module.v
   C:/Users/Nico/Documents/Projects/Firmware/FPGA_Bomberman/debounce_button.v
   C:/Users/Nico/Documents/Projects/Firmware/FPGA_Bomberman/pillar_display.v
   C:/Users/Nico/Documents/Projects/Firmware/FPGA_Bomberman/vga_low_level.v
@@ -87,6 +90,9 @@ read_verilog -library xil_defaultlib {
 }
 read_ip -quiet c:/Users/Nico/Documents/Projects/Firmware/FPGA_Bomberman/FPGA_Bomberman.srcs/sources_1/ip/pillar_dm/pillar_dm.xci
 set_property used_in_implementation false [get_files -all c:/Users/Nico/Documents/Projects/Firmware/FPGA_Bomberman/FPGA_Bomberman.gen/sources_1/ip/pillar_dm/pillar_dm_ooc.xdc]
+
+read_ip -quiet c:/Users/Nico/Documents/Projects/Firmware/FPGA_Bomberman/FPGA_Bomberman.srcs/sources_1/ip/bm_sprite_br/bm_sprite_br.xci
+set_property used_in_implementation false [get_files -all c:/Users/Nico/Documents/Projects/Firmware/FPGA_Bomberman/FPGA_Bomberman.gen/sources_1/ip/bm_sprite_br/bm_sprite_br_ooc.xdc]
 
 OPTRACE "Adding files" END { }
 # Mark all dcp files as not used in implementation to prevent them from being

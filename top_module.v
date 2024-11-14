@@ -92,11 +92,11 @@ assign wall_on = ((x < LEFT_WALL) | ( x > RIGHT_WALL) | (y < TOP_WALL) | (y > BO
 
 pillar_display pillar_disp_unit(.x(x), .y(y), .x_a(x_a), .y_a(y_a), .pillar_on(pillar_on), .rgb_out(pillar_rgb));
 
-/*                           
+                           
 bomberman_module bm_module(.clk(clk), .reset(reset), .x(x), .y(y), .L(L), .R(R), .U(U), .D(D), .cd(current_dir_reg), .bm_blocked(bm_blocked),
                            .gameover(gameover), .bomberman_on(bomberman_on), .bm_hb_on(bm_hb_on),
                            .x_b(x_b), .y_b(y_b), .rgb_out(bomberman_rgb));
-*/
+
 
 /*
 block_module block_module_unit(.clk(clk), .reset(reset), .display_on(display_on),

@@ -54,6 +54,7 @@ localparam D_3 = 192;
 
 //End of declaring indexing constants for death animation sprite ROM 
 
+
 //******************************************************************** WIRES & REGS ******************************************************************
 
 // delay timer reg, next_state, and tick for setting speed of bomberman motion
@@ -67,13 +68,13 @@ wire [9:0] x_b_next, y_b_next;
 
 // register to count time between walking frames
 reg  [25:0] frame_timer_reg;
-wire [25:0] frame_timer_next;
+reg [25:0] frame_timer_next;
 
 // register to hold y index offset into bomberman sprite ROM
 reg  [8:0] rom_offset_reg;
 reg  [8:0] rom_offset_next;
 
-
+reg [3:0] lrud_prev, lrud_now;
 //************************************************************** MOTION TIMER REGISTER ****************************************************************
 
 // infer register for motion_timer
@@ -175,12 +176,134 @@ assign y_b_next = (!gameover & !bm_blocked & motion_timer_tick) ?
 
       
 //************************************************************ ANIMATION FRAME TIMER **************************************************************
+always @(posedge clk) begin
+    if(reset) begin
+        lrud_prev <= 4'h0;
+        lrud_now <=  4'h0;
+    end
+    else begin
+        lrud_prev <= lrud_now;
+        lrud_now <= {L, R, U, D};
+    end
+end
 
-//...
+always @(posedge clk) begin
+
+    if((lrud_prev == lrud_now) && (lrud_now > 0)) begin
+        if(frame_timer_reg < FRAME_REG_MAX) begin
+            frame_timer_reg <= frame_timer_reg + 1;
+            
+            if(frame_timer_reg < FRAME_CNT_1) begin
+                frame_timer_next <= FRAME_CNT_1;
+            end
+            else if(frame_timer_reg < FRAME_CNT_2) begin
+                frame_timer_next <= FRAME_CNT_2;
+            end
+            else if(frame_timer_reg < FRAME_CNT_3) begin
+                frame_timer_next <= FRAME_CNT_3;
+            end
+            else begin  // if frame_timer_reg < FRAME_CNT_4
+                frame_timer_next <= FRAME_CNT_4;
+            end
+
+        end
+        else begin
+            frame_timer_reg <= 21'h000000;
+            frame_timer_next <= FRAME_CNT_1;
+        end
+    end
+    else begin
+        frame_timer_reg <= 21'h000000;
+        frame_timer_next <= FRAME_CNT_1;
+    end
+end
 
 //********************************************************* REGISTER TO INDEX INTO SPRITE ROM *****************************************************
 
-//...
+always @(posedge clk) begin
+    if(reset == 1'b1) begin
+        rom_offset_reg <=  D_1;
+        rom_offset_next <= D_1;
+    end
+    else begin
+
+        rom_offset_reg <= rom_offset_next;
+
+        case(frame_timer_next)
+            
+            FRAME_CNT_1:
+            begin
+                if((cd == CD_U)&&(lrud_now > 0)) begin
+                    rom_offset_next <= U_1;                        
+                end
+                else if((cd == CD_D) && (lrud_now > 0)) begin
+                    rom_offset_next <= D_1;
+                end
+                else if(((cd == CD_R) || (cd == CD_L)) && (lrud_now > 0)) begin
+                    rom_offset_next <= R_1;
+                end
+                else begin //if the user is not pressing any keys
+                end
+            end
+            FRAME_CNT_2:
+            begin
+                if((cd == CD_U)&&(lrud_now > 0)) begin
+                    rom_offset_next <= U_2;                        
+                end
+                else if((cd == CD_D) && (lrud_now > 0)) begin
+                    rom_offset_next <= D_2;
+                end
+                else if(((cd == CD_R) || (cd == CD_L)) && (lrud_now > 0)) begin
+                    rom_offset_next <= R_2;
+                end
+                else begin //if the user is not pressing any keys
+                end
+            end
+            FRAME_CNT_3:
+            begin
+                if((cd == CD_U)&&(lrud_now > 0)) begin
+                    rom_offset_next <= U_1;                        
+                end
+                else if((cd == CD_D) && (lrud_now > 0)) begin
+                    rom_offset_next <= D_1;
+                end
+                else if(((cd == CD_R) || (cd == CD_L)) && (lrud_now > 0)) begin
+                    rom_offset_next <= R_1;
+                end
+                else begin //if the user is not pressing any keys
+                end
+            end
+            FRAME_CNT_4:
+            begin
+                if((cd == CD_U)&&(lrud_now > 0)) begin
+                    rom_offset_next <= U_3;                        
+                end
+                else if((cd == CD_D) && (lrud_now > 0)) begin
+                    rom_offset_next <= D_3;
+                end 
+                else if(((cd == CD_R) || (cd == CD_L)) && (lrud_now > 0)) begin
+                    rom_offset_next <= R_3;
+                end
+                else begin //if the user is not pressing any keys
+                end
+            end
+            default:
+            begin
+                if(rom_offset_reg < R_1) begin
+                    rom_offset_next <= U_1;
+                end
+                else if(rom_offset_reg < D_1) begin
+                    rom_offset_next <= R_1;
+                end
+                else begin // if(rom_offset >= D_1)
+                    rom_offset_next <= D_1;
+                end
+            end
+        endcase
+    end
+end
+
+
 
 //********************************************************** INSTANTIATE ROM & ASSIGN OUTPUTS *****************************************************
 
