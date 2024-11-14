@@ -52,11 +52,16 @@ localparam D_3 = 192;
 
 //The indexing constant into death animation sprite ROM should take place here.
 
+localparam DEAD_1 = 0;
+localparam DEAD_2 = 24;
+localparam DEAD_3 = 48;
+localparam DEAD_4 = 72;
+localparam DEAD_5 = 96;
 //End of declaring indexing constants for death animation sprite ROM 
 
 
 //******************************************************************** WIRES & REGS ******************************************************************
-
+reg [11:0] rgb_dead;
 // delay timer reg, next_state, and tick for setting speed of bomberman motion
 reg  [20:0] motion_timer_reg;
 wire [20:0] motion_timer_next;
@@ -73,6 +78,9 @@ reg [25:0] frame_timer_next;
 // register to hold y index offset into bomberman sprite ROM
 reg  [8:0] rom_offset_reg;
 reg  [8:0] rom_offset_next;
+
+reg  [8:0] rom_dead_offset_reg;
+
 
 reg [3:0] lrud_prev, lrud_now;
 //************************************************************** MOTION TIMER REGISTER ****************************************************************
@@ -243,6 +251,15 @@ always @(posedge clk) begin
                     rom_offset_next <= R_1;
                 end
                 else begin //if the user is not pressing any keys
+                    if(rom_offset_reg < R_1) begin
+                        rom_offset_next <= U_1;
+                    end
+                    else if(rom_offset_reg < D_1) begin
+                        rom_offset_next <= R_1;
+                    end
+                    else begin // if(rom_offset >= D_1)
+                        rom_offset_next <= D_1;
+                    end
                 end
             end
             FRAME_CNT_2:
@@ -256,8 +273,7 @@ always @(posedge clk) begin
                 else if(((cd == CD_R) || (cd == CD_L)) && (lrud_now > 0)) begin
                     rom_offset_next <= R_2;
                 end
-                else begin //if the user is not pressing any keys
-                end
+               
             end
             FRAME_CNT_3:
             begin
@@ -270,8 +286,7 @@ always @(posedge clk) begin
                 else if(((cd == CD_R) || (cd == CD_L)) && (lrud_now > 0)) begin
                     rom_offset_next <= R_1;
                 end
-                else begin //if the user is not pressing any keys
-                end
+                
             end
             FRAME_CNT_4:
             begin
@@ -283,8 +298,6 @@ always @(posedge clk) begin
                 end 
                 else if(((cd == CD_R) || (cd == CD_L)) && (lrud_now > 0)) begin
                     rom_offset_next <= R_3;
-                end
-                else begin //if the user is not pressing any keys
                 end
             end
             default:
@@ -311,8 +324,12 @@ end
 wire [11:0] br_addr = (cd == CD_L) ? 15 - (x - x_b_reg) + {(y-y_b_reg+rom_offset_reg), 4'd0} 
                                    :      (x - x_b_reg) + {(y-y_b_reg+rom_offset_reg), 4'd0};
 
+wire [11:0] br_dead_addr = (x - x_b_reg) + {(y-y_b_reg+rom_dead_offset_reg), 4'd0};
+
 // instantiate bomberman sprite ROM
 bm_sprite_br bm_s_unit(.clka(clk), .ena(1'b1), .addra(br_addr), .douta(rgb_out));
+bm_dead_br bm_s_unit2(.clka(clk), .ena(1'b1), .addra(br_dead_addr), .douta(rgb_dead));
+
 
 // assign output for bomberman sprite location        
 assign x_b = x_b_reg;

@@ -1,0 +1,2 @@
+bm_dead_br.v,verilog,xil_defaultlib,../../../../FPGA_Bomberman.gen/sources_1/ip/bm_dead_br/sim/bm_dead_br.v,
+glbl.v,Verilog,xil_defaultlib,glbl.v

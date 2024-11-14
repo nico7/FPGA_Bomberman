@@ -107,12 +107,12 @@ block_module block_module_unit(.clk(clk), .reset(reset), .display_on(display_on)
 
         
 
-/*
+
 bomb_module bomb_module_unit(.clk(clk), .reset(reset), .x_a(x_a), .y_a(y_a), .cd(current_dir_reg), 
                                .x_b(x_b), .y_b(y_b), .A(A), .gameover(gameover), .bomb_rgb(bomb_rgb),
                                .exp_rgb(exp_rgb), .bomb_on(bomb_on), .exp_on(exp_on), .block_w_addr(block_w_addr), 
                                .block_we(block_we), .post_exp_active(post_exp_active));
-*/
+
 
 /*                         
 enemy_module enemy_module_unit(.clk(clk), .reset(reset), .display_on(display_on),

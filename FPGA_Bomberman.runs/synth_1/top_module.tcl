@@ -80,7 +80,11 @@ OPTRACE "Creating in-memory project" END { }
 OPTRACE "Adding files" START { }
 add_files c:/Users/Nico/Documents/Projects/Firmware/FPGA_Bomberman/bomberman_student_2024/graphics/pillar.coe
 add_files c:/Users/Nico/Documents/Projects/Firmware/FPGA_Bomberman/bomberman_student_2024/graphics/player.coe
+add_files c:/Users/Nico/Documents/Projects/Firmware/FPGA_Bomberman/bomberman_student_2024/graphics/player_death.coe
+add_files c:/Users/Nico/Documents/Projects/Firmware/FPGA_Bomberman/bomberman_student_2024/graphics/bomb.coe
+add_files c:/Users/Nico/Documents/Projects/Firmware/FPGA_Bomberman/bomberman_student_2024/graphics/explosions.coe
 read_verilog -library xil_defaultlib {
+  C:/Users/Nico/Documents/Projects/Firmware/FPGA_Bomberman/bomb_module.v
   C:/Users/Nico/Documents/Projects/Firmware/FPGA_Bomberman/bomberman_module.v
   C:/Users/Nico/Documents/Projects/Firmware/FPGA_Bomberman/debounce_button.v
   C:/Users/Nico/Documents/Projects/Firmware/FPGA_Bomberman/pillar_display.v
@@ -93,6 +97,12 @@ set_property used_in_implementation false [get_files -all c:/Users/Nico/Document
 
 read_ip -quiet c:/Users/Nico/Documents/Projects/Firmware/FPGA_Bomberman/FPGA_Bomberman.srcs/sources_1/ip/bm_sprite_br/bm_sprite_br.xci
 set_property used_in_implementation false [get_files -all c:/Users/Nico/Documents/Projects/Firmware/FPGA_Bomberman/FPGA_Bomberman.gen/sources_1/ip/bm_sprite_br/bm_sprite_br_ooc.xdc]
+
+read_ip -quiet c:/Users/Nico/Documents/Projects/Firmware/FPGA_Bomberman/FPGA_Bomberman.srcs/sources_1/ip/bomb_dm/bomb_dm.xci
+set_property used_in_implementation false [get_files -all c:/Users/Nico/Documents/Projects/Firmware/FPGA_Bomberman/FPGA_Bomberman.gen/sources_1/ip/bomb_dm/bomb_dm_ooc.xdc]
+
+read_ip -quiet c:/Users/Nico/Documents/Projects/Firmware/FPGA_Bomberman/FPGA_Bomberman.srcs/sources_1/ip/explosions_br/explosions_br.xci
+set_property used_in_implementation false [get_files -all c:/Users/Nico/Documents/Projects/Firmware/FPGA_Bomberman/FPGA_Bomberman.gen/sources_1/ip/explosions_br/explosions_br_ooc.xdc]
 
 OPTRACE "Adding files" END { }
 # Mark all dcp files as not used in implementation to prevent them from being

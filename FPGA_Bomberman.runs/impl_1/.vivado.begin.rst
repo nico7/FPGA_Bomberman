@@ -78,3 +78,13 @@
     <Process Command="vivado.bat" Owner="Nico" Host="LAPTOP-QJ9BJU4G" Pid="25752" HostCore="32" HostMemory="068446707712">
     </Process>
 </ProcessHandle>
+<?xml version="1.0"?>
+<ProcessHandle Version="1" Minor="0">
+    <Process Command="vivado.bat" Owner="Nico" Host="LAPTOP-QJ9BJU4G" Pid="10472" HostCore="32" HostMemory="068446707712">
+    </Process>
+</ProcessHandle>
+<?xml version="1.0"?>
+<ProcessHandle Version="1" Minor="0">
+    <Process Command="vivado.bat" Owner="Nico" Host="LAPTOP-QJ9BJU4G" Pid="21824" HostCore="32" HostMemory="068446707712">
+    </Process>
+</ProcessHandle>
